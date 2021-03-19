@@ -1,11 +1,14 @@
 #include "fraction.cpp"
 int main()
 {
-    MATH::Fraction f(1, 4), g(1, 4), s(0,0);
-    cout <<"f = "<<f<<"\ng = "<<g<<endl;
+    Fraction f(1, 4), g(1, 2);
+    Fraction s;
+    cout <<"f = "<<f<<"\ng = "<<g<<"\ns = "<<s<<endl;
+    
+    cout <<"f = "<<f<<"\ng = "<<g<<"\ns = "<<s++<<endl;
 
-    s.somme(f, g);
-    cout <<"s = "<<s<<endl;
+    cout<<"\ns = "<<s<<endl;
+    
     /*
     int x, y;
     cout<<"Numerateur : ";
