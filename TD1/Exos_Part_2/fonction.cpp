@@ -41,14 +41,14 @@ void exercice_surcharge(){
 }
 
 
-*/
+
 
 double* pt0=0;
 double* pt1=4096; //rvalue est un int
 double* pt2=(double*)4096;
 void* pt3=pt1;
-pt1=pt3; //lvalue a un pb
-pt1=(double*)pt3; //lvalue a un pb
+pt1=pt3; //impossible de passer de void à double
+pt1=(double*)pt3; //pareil
 double d1=36;
 const double d2=36;
 double* pt4=&d1;
@@ -68,3 +68,6 @@ double const* pt8=&d1;
 pt8=&d2;
 pt8=&d1;
 *pt8=3.14;
+
+*/
+
