@@ -14,32 +14,7 @@ class AutomateException {
   };
 #endif
 
-unsigned short NumBitToNum(const std::string& num) {
-  if(num.size() != 8)throw AutomateException("Numero d’automate indefini");
 
-  int puissance = 1;
-  unsigned short numero = 0;
-
-  for(int i = 7; i >= 0; i--) {
-    if(num[i] == ’1’) numero += puissance;
-    else if(num[i] != ’0’)throw AutomateException("Numero d’automate indefini");
-    puissance*= 2;
-  }
-    return numero;
-  }
-
-
-    std::string NumToNumBit(unsigned short num) {
-      std::string numeroBit;
-      if(num > 256)throw AutomateException("Numero d’automate indefini");
-      unsigned short p = 128;
-      int i = 7;
-      while(i >= 0) {if(num >= p) { numeroBit.push_back('1'); num -= p; }else{ numeroBit.push_back('0'); }
-        i--;
-        p = p / 2;
-      }
-      return numeroBit;
-    }
 
 class Etat {
   private:
@@ -69,10 +44,11 @@ class Etat {
     }
 
     size_t getDimension() const {return dimension;}
-    bool getCellule(size_t i)const {return valeur[i];}
+    bool getCellule(size_t i)const {if (i>=dimension)throw AutomateException("Erreur Cellule");return valeur[i];}
     void setCellule(size_t i,bool val){valeur[i]=val;}
 };
 std::ostream & operator<<(std::ostream & os,const Etat & e);
+
 
 
 class Automate{
@@ -81,9 +57,35 @@ class Automate{
     string numeroBit;
 
   public:
-    Automate()
-    unsigned short getNumero() {retrun numero;}
-    string getNumeroBit() {retrun numeroBit;}
+    Automate(unsigned short num);
+    Automate(string snum);
 
+    unsigned short getNumero() const {return numero;}
+    string getNumeroBit() const{return numeroBit;}
+
+    void appliquerTransition(const Etat& dep, Etat& dest)const
+    {
+      for(int i=0;i<dep.getDimension();i++){dest.setCellule(i,dep.getCellule(i));}
+    }
+}
+
+};
+std::ostream & operator<<(std::ostream & os,const Automate & a);
+
+
+class Simulateur{
+  private:
+    const Automate& automate;
+    Etat * depart=nullptr;
+    unsigned int nbMaxEtats;
+    Etat ** etat;
+    size_t rang=0;
+
+
+  public:
+    Simulateur(const Automate& a, size_t buf = 2):automate(a),etat(new Etat*[buf]),nbMaxEtats(buf){}
+    Simulateur(const Automate& a,const Etat& dep, size_t buffer = 2):automate(a),depart(new Etat),etat(new Etat*[buf]),nbMaxEtats(buf){}
+
+    void setEtatDepart(const Etat& e):{}
 
 };
